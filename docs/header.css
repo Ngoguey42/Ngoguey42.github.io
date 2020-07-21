@@ -1,0 +1,60 @@
+/* ************************************************************************** */
+body { background: #FCFCFC; margin: 0; }
+#header {
+    text-align: center;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: normal;
+    /* color: #007bff; */
+    line-height: 1.5;
+    /* border-bottom: 1px solid black; */
+}
+#header span {
+    /* text-decoration: underline !important; */
+    font-weight: bold;
+    color: black;
+}
+#header a {
+    text-decoration: none !important;
+}
+#header a:hover {
+    text-decoration: underline !important;
+}
+#header a:visited {
+    text-decoration: underline !important;
+    color: #007bff;
+}
+#header.black-bg {
+    position: absolute;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+#header.black-bg a {
+    color: white;
+}
+.mnist-icon {
+    height: 18px;
+    width: 18px;
+    display: inline-block;
+    margin-bottom: 1px;
+    margin-left: -2px;
+    margin-right: 4px;
+    vertical-align: middle;
+    filter: invert();
+}
+.homepage-icon {
+    height: 18px;
+    width: 18px;
+    display: inline-block;
+    margin-bottom: 1px;
+    margin-right: 5px;
+    vertical-align: middle;
+    /* filter: invert(); */
+}
+.black-bg .mnist-icon {
+    filter: invert(0);
+}
+/* ************************************************************************** */
