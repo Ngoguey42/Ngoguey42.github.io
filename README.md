@@ -4,4 +4,7 @@
 
 > source code [https://github.com/Ngoguey42/io](https://github.com/Ngoguey42/io)
 
-The `website` directory and all the symlinks are generated from the source code repository.
+The `build/default/bin/page_builder.bc.js` file is generated from the `io` repository.
+
+
+The symlinks all point to the `io` directory.
