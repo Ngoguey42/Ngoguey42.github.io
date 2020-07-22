@@ -19,16 +19,42 @@ echo '> Compiling /io *********************************************************'
 echo '> Listing files to copy from /io ****************************************'
 (cd io && find *.html cinquante*.js *.css images lib/articles/*_ex[0123456789].ml build/default/bin/page_builder.bc.js -type f) > file-list.txt
 
-echo '> removing old ./olds and fill it with rsync ****************************'
+echo '> Removing old website files ********************************************'
+mkdir ./website 2>/dev/null || (rm -rf ./website && mkdir ./website)
+find . -type l | xargs -L1 -I% rm %
+
+echo '> Fill new website/ directory with rsync ********************************'
 # How to avoid `rm -rf` using --files-from and --delete?
-mkdir ./docs || (rm -rf ./docs && mkdir ./docs)
-rsync -qarvm --files-from=file-list.txt io docs
+rsync -qarvm --files-from=file-list.txt io website
 # rsync -arvm --include-from=file-list.txt --include='*/' --exclude='*' io temp --delete
 
 echo '> New tree **************************************************************'
-tree -a docs || true
+tree -a website || true
 
-echo '> docs/* sizes (uncompressed) *******************************************'
-du -cbhs `find docs -type f` | sort -h
+echo '> website/* sizes (uncompressed) ****************************************'
+du -cbhs `find website -type f` | sort -h
+
+echo '> generating sym link to website/ directory *****************************'
+python -c '
+import os
+os.system("cd ")
+root = os.getcwd()
+for p in open("file-list.txt").read().strip().split("\n"):
+    if os.path.islink(p) or os.path.exists(p):
+       assert False
+
+    d = os.path.dirname(p) or "."
+    if d != ".":
+       cmd = "mkdir -p {}".format(os.path.dirname(p))
+       print(cmd)
+       os.system(cmd)
+
+    cmd = "ln -s {} {}".format(os.path.relpath(os.path.join("website", p), d), os.path.basename(p))
+    print(cmd)
+    os.chdir(d)
+    os.system(cmd)
+    os.chdir(root)
+'
+
 
 echo '> Success. Now: add, commit and push ************************************'
