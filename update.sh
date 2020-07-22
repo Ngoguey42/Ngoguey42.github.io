@@ -17,11 +17,12 @@ echo '> Compiling /io *********************************************************'
 (cd io && ./build.sh --profile release bin/page_builder.bc.js)
 
 echo '> Listing files to copy from /io ****************************************'
-(cd io && find *.html cinquante*.js *.css images lib/articles/*_ex[0123456789].ml build/default/bin/page_builder.bc.js -type f) > file-list.txt
+(cd io && find *.html cinquante*.js *.css images lib/articles/*_ex[0123456789].ml -type f) > file-list.txt
 
-echo '> Removing old website files ********************************************'
+echo '> Removing files from previous build ***********************************'
 # mkdir ./website 2>/dev/null || (rm -rf ./website && mkdir ./website)
 find . -type l | xargs -L1 -I% rm %
+rm -rf /build/default/bin/page_builder.bc.js
 
 # echo '> Fill new website/ directory with rsync ********************************'
 # How to avoid `rm -rf` using --files-from and --delete?
@@ -34,7 +35,11 @@ find . -type l | xargs -L1 -I% rm %
 # echo '> website/* sizes (uncompressed) ****************************************'
 # du -cbhs `find website -type f` | sort -h
 
-echo '> generating sym link to website/ directory *****************************'
+echo '> copying page_builder.bc.js ********************************************'
+mkdir -p build/default/bin
+cp io/build/default/bin/page_builder.bc.js build/default/bin/page_builder.bc.js
+
+echo '> generating sym link to io/ directory **********************************'
 python -c '
 import os
 os.system("cd ")
