@@ -1,1 +1,1 @@
-../../../website/build/default/bin/page_builder.bc.js
+../../../io/build/default/bin/page_builder.bc.js

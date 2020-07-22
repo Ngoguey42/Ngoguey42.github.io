@@ -20,19 +20,19 @@ echo '> Listing files to copy from /io ****************************************'
 (cd io && find *.html cinquante*.js *.css images lib/articles/*_ex[0123456789].ml build/default/bin/page_builder.bc.js -type f) > file-list.txt
 
 echo '> Removing old website files ********************************************'
-mkdir ./website 2>/dev/null || (rm -rf ./website && mkdir ./website)
+# mkdir ./website 2>/dev/null || (rm -rf ./website && mkdir ./website)
 find . -type l | xargs -L1 -I% rm %
 
-echo '> Fill new website/ directory with rsync ********************************'
+# echo '> Fill new website/ directory with rsync ********************************'
 # How to avoid `rm -rf` using --files-from and --delete?
-rsync -qarvm --files-from=file-list.txt io website
+# rsync -qarvm --files-from=file-list.txt io website
 # rsync -arvm --include-from=file-list.txt --include='*/' --exclude='*' io temp --delete
 
-echo '> New tree **************************************************************'
-tree -a website || true
+# echo '> New tree **************************************************************'
+# tree -a website || true
 
-echo '> website/* sizes (uncompressed) ****************************************'
-du -cbhs `find website -type f` | sort -h
+# echo '> website/* sizes (uncompressed) ****************************************'
+# du -cbhs `find website -type f` | sort -h
 
 echo '> generating sym link to website/ directory *****************************'
 python -c '
@@ -49,7 +49,8 @@ for p in open("file-list.txt").read().strip().split("\n"):
        print(cmd)
        os.system(cmd)
 
-    cmd = "ln -s {} {}".format(os.path.relpath(os.path.join("website", p), d), os.path.basename(p))
+    cmd = "ln -s {} {}".format(os.path.relpath(os.path.join("io", p), d), os.path.basename(p))
+    # cmd = "ln -s {} {}".format(os.path.relpath(os.path.join("website", p), d), os.path.basename(p))
     print(cmd)
     os.chdir(d)
     os.system(cmd)
